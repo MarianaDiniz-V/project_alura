@@ -76,7 +76,8 @@ class TopicoService (private var topicos: List<Topico>){
             id = topicos.size.toLong() + 1,
             titulo = dto.titulo,
             mensagem = dto.mensagem,
-            curso = CursoService.buscarPorId(dto.idCurso),
+            curso = CursoService().buscarPorId(dto.idCurso),
+            autor = Usuario(1,"Rodrigo","teste@gmail.com"),
         )
     }
 }
