@@ -1,83 +1,56 @@
 package br.com.alura.Alura.service
 
-import br.com.alura.Alura.Dto.NovoTopico
-import br.com.alura.Alura.model.Curso
-import br.com.alura.Alura.model.Topico
-import br.com.alura.Alura.model.Usuario
+import br.com.alura.Alura.Dto.NovoTopicoForm
+import br.com.alura.Alura.Dto.TopicoView
+import br.com.alura.Alura.Dto.UpdateTopicoForm
+import br.com.alura.Alura.exception.NotFoundException
+import br.com.alura.Alura.mapper.TopicoViewMapper
+import br.com.alura.Alura.model.*
+import br.com.alura.Alura.Repository.CursoRepository
+import br.com.alura.Alura.Repository.TopicoRepository
+import br.com.alura.Alura.Repository.UsuarioRepository
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RequestBody
-import java.util.*
+import java.util.stream.Collectors
+import javax.validation.Valid
 
 @Service
-class TopicoService (private var topicos: List<Topico>){
+class TopicoService (
+    private val repository: TopicoRepository,
+    private val cursoRepository: CursoRepository,
+    private val usuarioRepository: UsuarioRepository,
+    private var topicoViewMapper: TopicoViewMapper,
+    private val messageNotFound: String = "Tópico não encontrado"
+    ){
 
-    init {
-        val topico = Topico(
-            id = 1,
-            titulo = "Duvida Kotlin",
-            mensagem = "listas em Kotlin",
-            curso = Curso(
-                id = 1,
-                nome = "Kotlin",
-                categoria = "programação"
-            ),
-            autor = Usuario(
-                id = 1,
-                nome = "Gabriela Guimarães",
-                email = "gabiguim@email.com"
-            )
-        )
-        val topico2 = Topico(
-            id = 2,
-            titulo = "Duvida Java",
-            mensagem = "listas em Java",
-            curso = Curso(
-                id = 1,
-                nome = "Java",
-                categoria = "programação"
-            ),
-            autor = Usuario(
-                id = 1,
-                nome = "Gabriela Guimarães",
-                email = "gabiguim@email.com"
-            )
-        )
-        val topico3 = Topico(
-            id = 3,
-            titulo = "Duvida Angular",
-            mensagem = "Responsividade",
-            curso = Curso(
-                id = 1,
-                nome = "Angular",
-                categoria = "programação"
-            ),
-            autor = Usuario(
-                id = 1,
-                nome = "Gabriela Guimarães",
-                email = "gabiguim@email.com"
-            )
-        )
-        topicos = Arrays.asList(topico, topico2, topico3)
-    }
-
-
-    fun listar(): List<Topico>{
-        return topicos
+    fun listar(): List<TopicoView>{
+        return repository.findAll().stream().map{t ->
+            topicoViewMapper.map(t)
+        }.collect(Collectors.toList())
     }
 
     fun listarPorId(id: Long): Topico {
-        return topicos.stream().filter({
-            t -> t.id == id
-        }).findFirst().get()
+        return repository.getById(id)
     }
 
-    fun cadastrar(@RequestBody dto: NovoTopico){
+    fun cadastrar(@RequestBody @Valid dto: NovoTopicoForm): TopicoView{
         val novoTopico = Topico(
-            id = topicos.size.toLong() + 1,
             titulo = dto.titulo,
             mensagem = dto.mensagem,
-            curso = CursoService().buscarPorId(dto.idCurso),
-            autor = Usuario(1,"Rodrigo","teste@gmail.com"),
+            curso = CursoService(cursoRepository).buscarPorId(dto.idCurso),
+            autor = UsuarioService(usuarioRepository).buscarPorId(dto.idAutor)
         )
+       repository.save(novoTopico)
+        return topicoViewMapper.map(novoTopico)
+    }
+
+    fun editar(@RequestBody @Valid dto: UpdateTopicoForm){
+        val topico = repository.findById(dto.id).orElseThrow{NotFoundException(messageNotFound)}
+        topico.titulo = dto.titulo
+        topico.mensagem = dto.mensagem
+    }
+
+    fun deletar(id: Long){
+       repository.deleteById(id)
     }
 }
