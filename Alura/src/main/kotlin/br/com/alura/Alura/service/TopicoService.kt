@@ -9,6 +9,8 @@ import br.com.alura.Alura.model.*
 import br.com.alura.Alura.Repository.CursoRepository
 import br.com.alura.Alura.Repository.TopicoRepository
 import br.com.alura.Alura.Repository.UsuarioRepository
+import br.com.alura.Alura.mapper.NovoTopicoFormMapper
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RequestBody
 import java.util.stream.Collectors
@@ -17,30 +19,26 @@ import javax.validation.Valid
 @Service
 class TopicoService (
     private val repository: TopicoRepository,
-    private val cursoRepository: CursoRepository,
-    private val usuarioRepository: UsuarioRepository,
-    private var topicoViewMapper: TopicoViewMapper,
+    private val novoTopicoFormMapper: NovoTopicoFormMapper,
+    private val topicoViewMapper: TopicoViewMapper,
     private val messageNotFound: String = "Tópico não encontrado"
     ){
 
-    fun listar(): List<TopicoView>{
-        return repository.findAll().stream().map{t ->
+    fun listar(
+        paginacao: org.springframework.data.domain.Pageable
+    ): Page<TopicoView>{
+        val topicos = repository.findAll(paginacao)
+        return topicos.map{t ->
             topicoViewMapper.map(t)
-        }.collect(Collectors.toList())
+        }
     }
-
     fun listarPorId(id: Long): Topico {
         return repository.getById(id)
     }
 
     fun cadastrar(@RequestBody @Valid dto: NovoTopicoForm): TopicoView{
-        val novoTopico = Topico(
-            titulo = dto.titulo,
-            mensagem = dto.mensagem,
-            curso = CursoService(cursoRepository).buscarPorId(dto.idCurso),
-            autor = UsuarioService(usuarioRepository).buscarPorId(dto.idAutor)
-        )
-       repository.save(novoTopico)
+        val novoTopico = novoTopicoFormMapper.map(dto)
+        repository.save(novoTopico)
         return topicoViewMapper.map(novoTopico)
     }
 
@@ -51,6 +49,6 @@ class TopicoService (
     }
 
     fun deletar(id: Long){
-       repository.deleteById(id)
+        repository.deleteById(id)
     }
 }
