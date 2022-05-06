@@ -1,9 +1,8 @@
 package br.com.alura.Alura.service
 
 import br.com.alura.Alura.model.Curso
-import br.com.alura.Alura.Repository.CursoRepository
+import br.com.alura.Alura.repository.CursoRepository
 import org.springframework.stereotype.Service
-import javax.persistence.Cacheable
 
 @Service
 class CursoService(private val repository : CursoRepository) {

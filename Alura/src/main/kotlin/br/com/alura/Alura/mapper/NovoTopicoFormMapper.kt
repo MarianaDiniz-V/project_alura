@@ -1,6 +1,6 @@
 package br.com.alura.Alura.mapper
 
-import br.com.alura.Alura.Dto.NovoTopicoForm
+import br.com.alura.Alura.dto.NovoTopicoForm
 import br.com.alura.Alura.model.Topico
 import br.com.alura.Alura.service.CursoService
 import br.com.alura.Alura.service.UsuarioService

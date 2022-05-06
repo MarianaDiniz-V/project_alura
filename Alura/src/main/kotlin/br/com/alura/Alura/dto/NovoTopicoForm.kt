@@ -1,7 +1,5 @@
-package br.com.alura.Alura.Dto
+package br.com.alura.Alura.dto
 
-import br.com.alura.Alura.model.Topico
-import br.com.alura.Alura.service.CursoService
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size

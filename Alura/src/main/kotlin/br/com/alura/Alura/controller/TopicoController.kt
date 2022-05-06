@@ -1,8 +1,8 @@
 package br.com.alura.Alura.controller
 
-import br.com.alura.Alura.Dto.NovoTopicoForm
-import br.com.alura.Alura.Dto.TopicoView
-import br.com.alura.Alura.Dto.UpdateTopicoForm
+import br.com.alura.Alura.dto.NovoTopicoForm
+import br.com.alura.Alura.dto.TopicoView
+import br.com.alura.Alura.dto.UpdateTopicoForm
 import br.com.alura.Alura.model.*
 import br.com.alura.Alura.service.TopicoService
 import org.springframework.data.domain.Page
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import javax.transaction.Transactional
 import javax.validation.Valid
-import org.springframework.data.domain.Sort
 
 @RestController
 @RequestMapping("/topicos")

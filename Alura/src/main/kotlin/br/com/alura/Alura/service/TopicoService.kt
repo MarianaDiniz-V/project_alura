@@ -1,19 +1,16 @@
 package br.com.alura.Alura.service
 
-import br.com.alura.Alura.Dto.NovoTopicoForm
-import br.com.alura.Alura.Dto.TopicoView
-import br.com.alura.Alura.Dto.UpdateTopicoForm
+import br.com.alura.Alura.dto.NovoTopicoForm
+import br.com.alura.Alura.dto.TopicoView
+import br.com.alura.Alura.dto.UpdateTopicoForm
 import br.com.alura.Alura.exception.NotFoundException
 import br.com.alura.Alura.mapper.TopicoViewMapper
 import br.com.alura.Alura.model.*
-import br.com.alura.Alura.Repository.CursoRepository
-import br.com.alura.Alura.Repository.TopicoRepository
-import br.com.alura.Alura.Repository.UsuarioRepository
+import br.com.alura.Alura.repository.TopicoRepository
 import br.com.alura.Alura.mapper.NovoTopicoFormMapper
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RequestBody
-import java.util.stream.Collectors
 import javax.validation.Valid
 
 @Service

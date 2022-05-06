@@ -1,4 +1,4 @@
-package br.com.alura.Alura.Dto
+package br.com.alura.Alura.dto
 
 data class TopicoView(
     val titulo: String,

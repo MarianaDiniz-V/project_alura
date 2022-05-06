@@ -1,6 +1,6 @@
 package br.com.alura.Alura.mapper
 
-import br.com.alura.Alura.Dto.TopicoView
+import br.com.alura.Alura.dto.TopicoView
 import br.com.alura.Alura.model.Topico
 import org.springframework.stereotype.Component
 

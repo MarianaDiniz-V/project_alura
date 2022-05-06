@@ -1,6 +1,6 @@
 package br.com.alura.Alura.exception
 
-import br.com.alura.Alura.Dto.ErrorView
+import br.com.alura.Alura.dto.ErrorView
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
