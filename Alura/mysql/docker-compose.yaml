@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  alura:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mariana/alura
+    container_name: alura
+    networks:
+      - alura-network
+    tty: true
+    ports:
+      - "8030:8080"
+    depends_on:
+      - db
+
+  db:
+    image: mysql
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=alura
+      - MYSQL_ROOT_PASSWORD=alura2022
+    ports:
+      - "3306:3306"
+    networks:
+      - alura-network
+
+
+
+networks:
+  forum-network:
+    driver: bridge
+

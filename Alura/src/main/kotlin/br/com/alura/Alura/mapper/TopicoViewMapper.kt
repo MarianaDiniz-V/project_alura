@@ -10,7 +10,8 @@ class TopicoViewMapper: br.com.alura.Alura.mapper.Mapper<Topico, TopicoView> {
        return TopicoView(
            titulo = t.titulo,
            curso = t.curso.nome,
-           autor = t.autor.nome
+           autor = t.autor.nome,
+           dataEdicao = t.dataEdicao
        )
     }
 }

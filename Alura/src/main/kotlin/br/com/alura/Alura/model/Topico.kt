@@ -1,5 +1,6 @@
 package br.com.alura.Alura.model
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
 @Entity
@@ -17,5 +18,6 @@ data class Topico (
     val status: StatusTopico = StatusTopico.NAO_RESPONDIDO,
     @OneToMany(mappedBy = "topico")
     //Na classe resposta também possui o tópico
-    val respostas: List<Resposta> = ArrayList()
+    val respostas: List<Resposta> = ArrayList(),
+    var dataEdicao: LocalDate? = null
         )
