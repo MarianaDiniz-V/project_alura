@@ -1,5 +1,6 @@
 package br.com.alura.Alura.dto
 
+import br.com.alura.Alura.model.StatusTopico
 import java.time.LocalDate
 
 data class TopicoView(

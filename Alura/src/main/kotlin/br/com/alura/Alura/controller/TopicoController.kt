@@ -3,7 +3,6 @@ package br.com.alura.Alura.controller
 import br.com.alura.Alura.dto.NovoTopicoForm
 import br.com.alura.Alura.dto.TopicoView
 import br.com.alura.Alura.dto.UpdateTopicoForm
-import br.com.alura.Alura.model.*
 import br.com.alura.Alura.service.TopicoService
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.data.domain.Page
@@ -30,7 +29,7 @@ class TopicoController (private val service: TopicoService) {
     }
 
     @GetMapping("/{id}")
-    fun listarPorId(@PathVariable id: Long): Topico {
+    fun listarPorId(@PathVariable id: Long): TopicoView {
         return service.listarPorId(id)
     }
 

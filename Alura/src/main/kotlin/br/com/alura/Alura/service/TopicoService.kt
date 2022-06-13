@@ -1,6 +1,7 @@
 package br.com.alura.Alura.service
 
 import br.com.alura.Alura.dto.NovoTopicoForm
+import br.com.alura.Alura.dto.TopicoDetailsView
 import br.com.alura.Alura.dto.TopicoView
 import br.com.alura.Alura.dto.UpdateTopicoForm
 import br.com.alura.Alura.exception.NotFoundException
@@ -8,6 +9,7 @@ import br.com.alura.Alura.mapper.TopicoViewMapper
 import br.com.alura.Alura.model.*
 import br.com.alura.Alura.repository.TopicoRepository
 import br.com.alura.Alura.mapper.NovoTopicoFormMapper
+import br.com.alura.Alura.mapper.TopicoDetailsViewMapper
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -29,16 +31,17 @@ class TopicoService (
     ): Page<TopicoView>{
         val topicos = if (nomeCurso == null){
             repository.findAll(paginacao)
-        } else {
+        }
+        else {
             repository.findByCursoNome(nomeCurso, paginacao)
         }
         return topicos.map{t ->
             topicoViewMapper.map(t)
         }
     }
-    fun listarPorId(id: Long): Topico {
-        //o findById retorna um Optional
-        return repository.findById(id).orElseThrow { NotFoundException(messageNotFound) }
+    fun listarPorId(id: Long): TopicoView {
+        val topico = repository.findById(id).orElseThrow { NotFoundException(messageNotFound) }
+        return topicoViewMapper.map(topico)
     }
 
     fun cadastrar(@RequestBody @Valid dto: NovoTopicoForm): TopicoView{

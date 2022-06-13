@@ -8,14 +8,14 @@ import javax.persistence.Id
 import javax.persistence.ManyToOne
 
 @Entity
-data class Resposta (
+data class Resposta(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long?,
+    val id: Long? = null,
     val mensagem: String,
     val dataCriacao: LocalDateTime = LocalDateTime.now(),
     @ManyToOne
     val autor: Usuario,
     @ManyToOne
     val topico: Topico,
-    val solucao: Boolean
+    var solucao: Boolean
         )
